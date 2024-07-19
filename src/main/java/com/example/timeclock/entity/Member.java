@@ -8,7 +8,7 @@ import jakarta.persistence.*;
 public class Member {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // 自增主键
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
     private Long id;
 
 	@Column(nullable = false, unique = true)
