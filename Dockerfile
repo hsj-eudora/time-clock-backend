@@ -4,7 +4,7 @@
 FROM openjdk:17-jdk-slim
 
 # 複製JAR文件到容器內的指定路徑
-COPY target/jars/timeclock-0.0.1-SNAPSHOT.jar /app/timeclock-0.0.1-SNAPSHOT.jar
+COPY target/timeclock-0.0.1-SNAPSHOT.jar /app/timeclock-0.0.1-SNAPSHOT.jar
 
 # 指定工作目錄
 WORKDIR /app
