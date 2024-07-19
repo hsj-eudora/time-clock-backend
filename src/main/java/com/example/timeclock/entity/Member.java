@@ -4,7 +4,7 @@ package com.example.timeclock.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "member") //h
+@Table(name = "member") 
 public class Member {
 
     @Id
@@ -58,15 +58,5 @@ public class Member {
 	public String toString() {
 		return "Member [id=" + id + ", username=" + username + ", password=" + password + ", email=" + email + "]";
 	}
-
-//	public List<Member> getMembers() {
-//		return member;
-//	}
-//
-//	public void setMembers(List<Member> members) {
-//		this.members = members;
-//	}
-
-
 
 }
