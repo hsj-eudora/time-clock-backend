@@ -4,7 +4,7 @@ package com.example.timeclock.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "member") 
+@Table(name = "member")   
 public class Member {
 
     @Id
