@@ -25,11 +25,13 @@ jobs:
       - name: Build with Maven
         run: mvn clean package
 
-      - name: Build Docker image
+      - name: Prepare JAR file
         run: |
-          # 將 JAR 檔案複製到 Docker build 的上下文中
-          cp target/*.jar timeclock-0.0.1-SNAPSHOT.jar
-          docker build -t ghcr.io/${{ github.repository }}:latest .
+          mkdir -p target/jars
+          mv target/*.jar target/jars/timeclock-0.0.1-SNAPSHOT.jar
+
+      - name: Build Docker image
+        run: docker build -t ghcr.io/${{ github.repository }}:latest .
 
       - name: Log in to GitHub Container Registry
         run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
