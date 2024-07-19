@@ -1,4 +1,4 @@
-name: Build and Package Maven Project
+name: Build and Package Maven Project with Docker
 
 on:
   push:
@@ -11,21 +11,28 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-        
+
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
           java-version: '17'
+          distribution: 'temurin'
           
       - name: Build with Maven
         run: mvn clean package
-        
-      - name: Upload JAR file
-        uses: actions/upload-artifact@v3
-        with:
-          name: my-jar
-          path: target/*.jar
+
+      - name: Build Docker image
+        run: |
+          # 將 JAR 檔案複製到 Docker build 的上下文中
+          cp target/*.jar timeclock-0.0.1-SNAPSHOT.jar
+          docker build -t ghcr.io/${{ github.repository }}:latest .
+
+      - name: Log in to GitHub Container Registry
+        run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Push Docker image
+        run: docker push ghcr.io/${{ github.repository }}:latest
