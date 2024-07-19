@@ -28,7 +28,8 @@ jobs:
       - name: Prepare JAR file
         run: |
           mkdir -p target/jars
-          mv target/*.jar target/jars/timeclock-0.0.1-SNAPSHOT.jar
+          unzip target/*.zip -d target/
+          mv target/*.jar target/timeclock-0.0.1-SNAPSHOT.jar
 
       - name: Build Docker image
         run: docker build -t ghcr.io/${{ github.repository }}:latest .
