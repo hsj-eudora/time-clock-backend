@@ -20,8 +20,6 @@ public class Member {
 	@Column(nullable = false, unique = true) 
 	private String email;
 	
-//	private List<Member> members = new ArrayList<>();
-
 	public Long getId() {
 		return id;
 	}
