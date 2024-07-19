@@ -1,12 +1,10 @@
 package com.example.timeclock.entity;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "member")
+@Table(name = "member") //h
 public class Member {
 
     @Id
