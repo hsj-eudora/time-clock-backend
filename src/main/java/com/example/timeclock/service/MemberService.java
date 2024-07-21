@@ -1,12 +1,15 @@
 package com.example.timeclock.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.timeclock.entity.Member;
 import com.example.timeclock.repository.MemberRepository;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class MemberService {
@@ -18,9 +21,30 @@ public class MemberService {
 		this.memberRepository = memberRepository;	
 	}
 	
-	 //setId return member
-	public Member createMember(Member member) {
-		
+	public List<Member> listMembers() {
+		return memberRepository.findAll();		
+	}
+	
+	public Optional<Member> member(Long id) {
+		return memberRepository.findById(id);		
+	}
+	
+	public Member updateMember(Long id, Member memberInfo) {
+		Optional<Member> optionalMember = memberRepository.findById(id); // 查找要更新的會員
+		if (optionalMember.isPresent()) {
+
+			Member member = optionalMember.get(); // 若存在則取得此會員
+			member.setUsername(memberInfo.getUsername());
+			member.setPassword(memberInfo.getPassword());
+			member.setEmail(memberInfo.getEmail());
+	
+		return memberRepository.save(member);
+		} else {
+			throw new EntityNotFoundException("Member not found!!");
+		}
+	}
+	
+	public Member createMember(Member member) {		
 		if(memberRepository.findByUsername(member.getUsername())!= null) {
 			throw new IllegalArgumentException("用戶名稱重複");
 		}
@@ -31,7 +55,6 @@ public class MemberService {
 		return memberRepository.save(member);		
 	}
 	
-	 //getusermane return member 傳入的參數使用者名稱和密碼並進行驗證
 	public Member loginMember(String username, String password) {
         Member member = memberRepository.findByUsername(username); 	
         if (member != null && member.getPassword().equals(password)) {
@@ -41,10 +64,4 @@ public class MemberService {
         }
         
 	}
-	
-	 //return members
-	public List<Member> listMembers() {
-		return memberRepository.findAll();		
-	}
-		
 }
