@@ -21,6 +21,7 @@ import com.example.timeclock.dto.RegisterRequest;
 import com.example.timeclock.entity.Member;
 import com.example.timeclock.service.MemberService;
 
+import io.swagger.annotations.ApiOperation;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 
@@ -35,7 +36,7 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 	
-	// 註冊建立會員資料
+	@ApiOperation(" 註冊建立會員資料")
 	@PostMapping("/signup") 
 	public ResponseEntity<String> createMember(@Valid @RequestBody RegisterRequest registerRequest, BindingResult result) {//指示 Spring 從請求中讀取成員資料
 
@@ -51,8 +52,7 @@ public class MemberController {
 	    }
 	}
 	
-	
-	// 會員修改個人資料
+	@ApiOperation("會員修改個人資料")
 	@PutMapping("/memberinfo/{id}")
 	public ResponseEntity<Object> memberUpdate(@PathVariable Long id, @RequestBody Member memberInfo) {
 		try {
@@ -65,7 +65,7 @@ public class MemberController {
 	
 	
 	
-	// 取得個別會員資料
+	@ApiOperation("取得個別會員資料")
 	@GetMapping("/memberinfo/{id}")
 	public ResponseEntity<Object> memberInfo(@PathVariable Long id) {
 		Optional<Member> member = memberService.member(id);
@@ -76,7 +76,7 @@ public class MemberController {
 	}
 
 
-	// 會員登入
+	@ApiOperation("會員登入")
 	@PostMapping("/login")
 	public ResponseEntity<String> loginMember(@RequestBody LoginRequest loginRequest) {
 	    Member member = memberService.loginMember(loginRequest.getUsername(), loginRequest.getPassword());
@@ -85,7 +85,7 @@ public class MemberController {
 		    		: ResponseEntity.status(HttpStatus.BAD_REQUEST).body("登入失敗：找不到用戶");
 	}
 
-	// 會員總列表
+	@ApiOperation("會員總列表")
 	@GetMapping("/members")
 	public ResponseEntity<List<Member>> getMembers() {
 		List<Member> members = memberService.listMembers();
