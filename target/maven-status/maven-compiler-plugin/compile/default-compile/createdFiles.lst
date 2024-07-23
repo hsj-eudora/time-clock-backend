@@ -1,3 +1,4 @@
+com\example\timeclock\config\CorsConfig.class
 com\example\timeclock\TimeclockApplication.class
 com\example\timeclock\entity\Project.class
 com\example\timeclock\entity\Punch.class
