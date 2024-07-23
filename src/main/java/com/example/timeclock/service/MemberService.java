@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.timeclock.dto.RegisterRequest;
 import com.example.timeclock.entity.Member;
 import com.example.timeclock.repository.MemberRepository;
 
@@ -44,14 +45,19 @@ public class MemberService {
 		}
 	}
 	
-	public Member createMember(Member member) {		
-		if(memberRepository.findByUsername(member.getUsername())!= null) {
+	public Member createMember(RegisterRequest registerRequest) {		
+		if(memberRepository.findByUsername(registerRequest.getUsername())!= null) {
 			throw new IllegalArgumentException("用戶名稱重複");
 		}
-		if(memberRepository.findByEmail(member.getEmail())!= null) {
+		if(memberRepository.findByEmail(registerRequest.getEmail())!= null) {
 			throw new IllegalArgumentException("Email重複");
 		}
-		member.setId(null);
+
+		Member member = new Member();
+		member.setUsername(registerRequest.getUsername());
+		member.setPassword(registerRequest.getPassword());
+		member.setEmail(registerRequest.getEmail());
+		
 		return memberRepository.save(member);		
 	}
 	
