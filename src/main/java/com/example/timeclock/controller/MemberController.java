@@ -35,21 +35,21 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 	
-//	// 註冊建立會員資料
-//	@PostMapping("/signup") 
-//	public ResponseEntity<String> createMember(@Valid @RequestBody RegisterRequest registerRequest, BindingResult result) {//指示 Spring 從請求中讀取成員資料
-//
-//		if (result.hasErrors()) {
-//			return ResponseEntity.badRequest().body(result.getAllErrors().get(0).getDefaultMessage());
-//		}
-//	
-//		try {
-//			Member saveMember = memberService.createMember(member);
-//			return ResponseEntity.ok("成功加入！你好：" + saveMember.getUsername().toString();
-//		} catch (IllegalArgumentException e){
-//			return e.getMessage();
-//		}
-//	}
+	// 註冊建立會員資料
+	@PostMapping("/signup") 
+	public ResponseEntity<String> createMember(@Valid @RequestBody RegisterRequest registerRequest, BindingResult result) {//指示 Spring 從請求中讀取成員資料
+
+		if (result.hasErrors()) {
+			return ResponseEntity.badRequest().body(result.getAllErrors().get(0).getDefaultMessage());
+		}
+
+	    try {
+	        Member saveMember = memberService.createMember(registerRequest);
+	        return ResponseEntity.ok("成功加入！你好：" + saveMember.getUsername());
+	    } catch (IllegalArgumentException e) {
+	        return ResponseEntity.badRequest().body(e.getMessage());
+	    }
+	}
 	
 	
 	// 會員修改個人資料

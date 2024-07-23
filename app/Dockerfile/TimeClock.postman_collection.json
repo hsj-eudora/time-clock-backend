@@ -7,16 +7,43 @@
 	},
 	"item": [
 		{
-			"name": "Member list",
+			"name": "Member Info",
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": "http://localhost:8080/members"
+				"url": "{{base_url}}/memberinfo/0"
 			},
 			"response": []
 		},
 		{
-			"name": "Member login",
+			"name": "Member Info Update",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"id\":1,\"username\":\"claire8809999\",\"password\":\"82958654\",\"email\":\"clair8e@gmail.com\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/memberinfo/1"
+			},
+			"response": []
+		},
+		{
+			"name": "Members List",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{base_url}}/members"
+			},
+			"response": []
+		},
+		{
+			"name": "Member Login",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -29,12 +56,12 @@
 						}
 					}
 				},
-				"url": "http://localhost:8080/login"
+				"url": "{{base_url}}/login"
 			},
 			"response": []
 		},
 		{
-			"name": "Member Sign up",
+			"name": "Member SignUp",
 			"event": [
 				{
 					"listen": "test",
