@@ -1,16 +1,14 @@
 package com.example.timeclock.entity;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "members")
+@Table(name = "member")   
 public class Member {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // 自增主键
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
     private Long id;
 
 	@Column(nullable = false, unique = true)
@@ -22,8 +20,6 @@ public class Member {
 	@Column(nullable = false, unique = true) 
 	private String email;
 	
-//	private List<Member> members = new ArrayList<>();
-
 	public Long getId() {
 		return id;
 	}
@@ -60,15 +56,5 @@ public class Member {
 	public String toString() {
 		return "Member [id=" + id + ", username=" + username + ", password=" + password + ", email=" + email + "]";
 	}
-
-//	public List<Member> getMembers() {
-//		return member;
-//	}
-//
-//	public void setMembers(List<Member> members) {
-//		this.members = members;
-//	}
-
-
 
 }
