@@ -20,7 +20,7 @@
 
 2. 第二次之後運行
    sh
-   docker-compse up -d --no-deps --build app
+   docker-compose up -d --no-deps --build app
 
 3. 停止運行
    sh
