@@ -81,8 +81,8 @@ public class MemberController {
 	public ResponseEntity<String> loginMember(@RequestBody LoginRequest loginRequest) {
 	    Member member = memberService.loginMember(loginRequest.getUsername(), loginRequest.getPassword());
 	    return member != null
-		    		? ResponseEntity.ok("登入成功：你好，" + member.getUsername())
-		    		: ResponseEntity.status(HttpStatus.BAD_REQUEST).body("登入失敗：找不到用戶");
+		    		? ResponseEntity.ok("Hi," + member.getUsername())
+		    		: ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
 	}
 
 	@ApiOperation("會員總列表")

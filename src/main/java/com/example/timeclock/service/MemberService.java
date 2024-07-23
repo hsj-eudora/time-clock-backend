@@ -17,14 +17,17 @@ import jakarta.persistence.EntityNotFoundException;
 public class MemberService {
 	
 	private MemberRepository memberRepository;
-
-    private final PasswordEncoder pw = new BCryptPasswordEncoder();
+//	private PasswordEncoder passwordEncoder;
+    private final BCryptPasswordEncoder pw = new BCryptPasswordEncoder();
 
 	@Autowired
+//	public MemberService(MemberRepository memberRepository, PasswordEncoder passwordEncoder) {
+//		this.memberRepository = memberRepository;	
+//		this.passwordEncoder = passwordEncoder;
+//	}
 	public MemberService(MemberRepository memberRepository) {
-		this.memberRepository = memberRepository;	
-	}
-	
+		this.memberRepository = memberRepository;
+	}	
 	public List<Member> listMembers() {
 		return memberRepository.findAll();		
 	}
@@ -66,11 +69,27 @@ public class MemberService {
 	
 	public Member loginMember(String username, String password) {
         Member member = memberRepository.findByUsername(username); 	
-        if (member != null && member.getPassword().equals(password)) {
+//        if (member != null && member.getPassword().equals(password)) {
+    	System.out.println("password:"+ password);
+    	System.out.println("member.getPassword:"+ member.getPassword());
+        if (member != null && pw.matches(password, member.getPassword())) {
         	return member;        	
         } else {
         	return null;
         }
         
 	}
+	
+//	public Member loginMember(String username, String password) {
+//        Member member = memberRepository.findByUsername(username);
+//    	System.out.println("password: " + password);
+//    	System.out.println("member.getPassword: " + member.getPassword());
+//        if (member != null && passwordEncoder.matches(password, member.getPassword())) {
+//        	System.out.println("Password match");
+//        	return member;
+//        } else {
+//        	System.out.println("Password mismatch");
+//        	return null;
+//        }
+//	}
 }
