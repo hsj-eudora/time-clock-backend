@@ -5,7 +5,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import com.example.timeclock.dto.RegisterRequest;
 import com.example.timeclock.entity.Member;
 import com.example.timeclock.repository.MemberRepository;
@@ -16,7 +17,9 @@ import jakarta.persistence.EntityNotFoundException;
 public class MemberService {
 	
 	private MemberRepository memberRepository;
-	
+
+    private final PasswordEncoder pw = new BCryptPasswordEncoder();
+
 	@Autowired
 	public MemberService(MemberRepository memberRepository) {
 		this.memberRepository = memberRepository;	
@@ -36,7 +39,7 @@ public class MemberService {
 
 			Member member = optionalMember.get(); // 若存在則取得此會員
 			member.setUsername(memberInfo.getUsername());
-			member.setPassword(memberInfo.getPassword());
+			member.setPassword(pw.encode(memberInfo.getPassword()));
 			member.setEmail(memberInfo.getEmail());
 	
 		return memberRepository.save(member);
@@ -55,7 +58,7 @@ public class MemberService {
 
 		Member member = new Member();
 		member.setUsername(registerRequest.getUsername());
-		member.setPassword(registerRequest.getPassword());
+		member.setPassword(pw.encode(registerRequest.getPassword()));
 		member.setEmail(registerRequest.getEmail());
 		
 		return memberRepository.save(member);		
