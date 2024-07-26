@@ -2,7 +2,7 @@
 --
 -- Host:     Database: timeclock
 -- ------------------------------------------------------
--- Server version	8.3.0
+-- Server version 8.3.0
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -28,7 +28,6 @@ CREATE TABLE IF NOT EXISTS `member` (
   UNIQUE KEY `UK_mbmcqelty0fbrvxp1q58dn57t` (`email`),
   UNIQUE KEY `UK_gc3jmn7c2abyo3wf6syln5t2i` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `member`
@@ -53,7 +52,6 @@ CREATE TABLE IF NOT EXISTS `project` (
   KEY `type_id` (`type_id`),
   CONSTRAINT `project_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `project_type` (`type_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `project`
@@ -76,7 +74,6 @@ CREATE TABLE IF NOT EXISTS `project_type` (
   KEY `member_id` (`member_id`),
   CONSTRAINT `project_type_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `member` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `project_type`
@@ -101,7 +98,6 @@ CREATE TABLE IF NOT EXISTS `punch` (
   KEY `task_id` (`task_id`),
   CONSTRAINT `punch_ibfk_1` FOREIGN KEY (`task_id`) REFERENCES `task` (`task_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `punch`
@@ -124,7 +120,6 @@ CREATE TABLE IF NOT EXISTS `tag` (
   KEY `project_id` (`project_id`),
   CONSTRAINT `tag_ibfk_1` FOREIGN KEY (`project_id`) REFERENCES `project` (`project_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `tag`
@@ -149,4 +144,19 @@ CREATE TABLE IF NOT EXISTS `task` (
   `est_ave_comp` bigint DEFAULT NULL,
   `act_total_time` bigint DEFAULT NULL,
   `act_ave_comp` bigint DEFAULT NULL,
-  PRIMARY KEY (`tas
+  PRIMARY KEY (`task_id`),
+  KEY `project_id` (`project_id`),
+  CONSTRAINT `task_ibfk_1` FOREIGN KEY (`project_id`) REFERENCES `project` (`project_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `task`
+--
+
+LOCK TABLES `task` WRITE;
+/*!40000 ALTER TABLE `task` DISABLE KEYS */;
+/*!40000 ALTER TABLE `task` ENABLE KEYS */;
+UNLOCK TABLES;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;

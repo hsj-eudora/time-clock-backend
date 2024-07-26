@@ -18,13 +18,12 @@
    sh
    docker-compose up --build
 
-2. 第二次之後運行
-   sh
-   docker-compose up -d --no-deps --build app
+2. 第二次之後運行(更新Jar)
+   ※更新前請確定容器已停止
 
-3. 停止運行
    sh
-   docker-compose down --volumes
+   docker-compose build app (重建app-更新jar檔)
+   docker-compose up (啟動) 
 
 ## 確認是否成功
 
