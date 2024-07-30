@@ -22,7 +22,9 @@
    ※更新前請確定容器已停止
 
    sh
-   docker-compose build app (重建app-更新jar檔)
+   docker cp [放置Jar檔的絕對路徑] [docker運行app的容器ID]:/app/timeclock-0.0.1-SNAPSHOT.jar
+   例如:docker cp D:/0.claire/claire/20240714/timeclock/target/timeclock-0.0.1-SNAPSHOT.jar d19c85b691aeab626669986288dacafa8d765744a3d6ff26fb72eac21a6b245b:/app/timeclock-0.0.1-SNAPSHOT.jar (重建app-更新jar檔)
+   
    docker-compose up (啟動) 
 
 ## 確認是否成功
