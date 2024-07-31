@@ -1,10 +1,14 @@
 package com.example.timeclock.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import com.example.timeclock.dto.RegisterRequest;
@@ -14,17 +18,12 @@ import com.example.timeclock.repository.MemberRepository;
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
-public class MemberService {
+public class MemberService implements UserDetailsService {
 	
 	private MemberRepository memberRepository;
-//	private PasswordEncoder passwordEncoder;
     private final BCryptPasswordEncoder pw = new BCryptPasswordEncoder();
 
-	@Autowired
-//	public MemberService(MemberRepository memberRepository, PasswordEncoder passwordEncoder) {
-//		this.memberRepository = memberRepository;	
-//		this.passwordEncoder = passwordEncoder;
-//	}
+
 	public MemberService(MemberRepository memberRepository) {
 		this.memberRepository = memberRepository;
 	}	
@@ -80,16 +79,17 @@ public class MemberService {
         
 	}
 	
-//	public Member loginMember(String username, String password) {
-//        Member member = memberRepository.findByUsername(username);
-//    	System.out.println("password: " + password);
-//    	System.out.println("member.getPassword: " + member.getPassword());
-//        if (member != null && passwordEncoder.matches(password, member.getPassword())) {
-//        	System.out.println("Password match");
-//        	return member;
-//        } else {
-//        	System.out.println("Password mismatch");
-//        	return null;
-//        }
-//	}
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	    Member member = memberRepository.findByUsername(username);
+	    if (member == null) {
+	        throw new UsernameNotFoundException("User not found with username: " + username);
+	    }
+	    return new org.springframework.security.core.userdetails.User(
+	        member.getUsername(), 
+	        member.getPassword(), 
+	        new ArrayList<>()
+	    );
+	}
+
 }

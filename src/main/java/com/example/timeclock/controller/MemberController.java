@@ -1,6 +1,5 @@
 package com.example.timeclock.controller;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -16,10 +15,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.timeclock.dto.AuthenticationResponse;
 import com.example.timeclock.dto.LoginRequest;
 import com.example.timeclock.dto.RegisterRequest;
 import com.example.timeclock.entity.Member;
 import com.example.timeclock.service.MemberService;
+import com.example.timeclock.util.JwtUtil;
 
 import io.swagger.annotations.ApiOperation;
 import jakarta.persistence.EntityNotFoundException;
@@ -35,6 +36,9 @@ public class MemberController {
 	
 	@Autowired
 	private MemberService memberService;
+	
+	@Autowired
+	private JwtUtil jwtUtil;
 	
 	@ApiOperation(" 註冊建立會員資料")
 	@PostMapping("/signup") 
@@ -78,12 +82,26 @@ public class MemberController {
 
 	@ApiOperation("會員登入")
 	@PostMapping("/login")
-	public ResponseEntity<String> loginMember(@RequestBody LoginRequest loginRequest) {
-	    Member member = memberService.loginMember(loginRequest.getUsername(), loginRequest.getPassword());
-	    return member != null
-		    		? ResponseEntity.ok("Hi," + member.getUsername())
-		    		: ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+	public ResponseEntity<?> loginMember(@RequestBody LoginRequest loginRequest) {
+		Member member = memberService.loginMember(loginRequest.getUsername(), loginRequest.getPassword());
+		
+		if (member != null) {
+	        String token = jwtUtil.generateToken(member.getUsername());
+	        return ResponseEntity.ok(new AuthenticationResponse(token));
+		} else {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+		}
 	}
+	
+//	@ApiOperation("會員登入 : 無生成返回JWT token") 
+//	@PostMapping("/login")
+//	public ResponseEntity<String> loginMember(@RequestBody LoginRequest loginRequest) {
+//	    Member member = memberService.loginMember(loginRequest.getUsername(), loginRequest.getPassword());
+//	    return member != null
+//		    		? ResponseEntity.ok("Hi," + member.getUsername())
+//		    		: ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+//	}
+	
 
 	@ApiOperation("會員總列表")
 	@GetMapping("/members")
