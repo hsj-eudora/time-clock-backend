@@ -1,6 +1,8 @@
 package com.example.timeclock.entity;
 
 
+import java.util.List;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -19,6 +21,9 @@ public class Member {
 	
 	@Column(nullable = false, unique = true) 
 	private String email;
+	
+	@OneToMany(mappedBy = "member")
+	private List<ProjectType>projectTypes;
 	
 	public Long getId() {
 		return id;
@@ -52,9 +57,18 @@ public class Member {
 		this.email = email;
 	}
 
+	public List<ProjectType> getProjectTypes() {
+		return projectTypes;
+	}
+
+	public void setProjectTypes(List<ProjectType> projectTypes) {
+		this.projectTypes = projectTypes;
+	}
+
 	@Override
 	public String toString() {
-		return "Member [id=" + id + ", username=" + username + ", password=" + password + ", email=" + email + "]";
+		return "Member [id=" + id + ", username=" + username + ", password=" + password + ", email=" + email
+				+ ", projectTypes=" + projectTypes + "]";
 	}
 
 }

@@ -39,6 +39,9 @@ public class Task {
 	
 	@Column(name = "act_ave_comp")
 	private Long actAveComp;
+	
+	@Column(name = "isDefault", nullable = false, columnDefinition = "TINYINT")
+	private Integer isDefaultInt;
 
 	public Long getTaskId() {
 		return taskId;
@@ -112,12 +115,21 @@ public class Task {
 		this.actAveComp = actAveComp;
 	}
 
+	public Boolean getIsDefault() {
+		return isDefaultInt == 1;
+	}
+
+	public void setIsDefault(Boolean getIsDefault) {
+		this.isDefaultInt = getIsDefault ? 1 : 0;
+	}
+
 	@Override
 	public String toString() {
 		return "Task [taskId=" + taskId + ", projectId=" + projectId + ", taskName=" + taskName + ", taskDesc="
 				+ taskDesc + ", estTime=" + estTime + ", estComp=" + estComp + ", estAveComp=" + estAveComp
-				+ ", actTotalTime=" + actTotalTime + ", actAveComp=" + actAveComp + "]";
+				+ ", actTotalTime=" + actTotalTime + ", actAveComp=" + actAveComp + ", isDefaultInt=" + isDefaultInt
+				+ "]";
 	}
-	
+
 	
 }

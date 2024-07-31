@@ -25,6 +25,9 @@ public class Project {
 	@Column(name = "project_desc", nullable = false)
 	private String projectDesc;
 
+	@Column(name = "isDefault", nullable = false, columnDefinition = "TINYINT")
+	private Integer isDefaultInt;
+	
 	public Long getProjectId() {
 		return projectId;
 	}
@@ -57,10 +60,18 @@ public class Project {
 		this.projectDesc = projectDesc;
 	}
 
+	public Boolean getIsDefault() {
+		return isDefaultInt == 1;
+	}
+
+	public void setIsDefault(Boolean getIsDefault) {
+		this.isDefaultInt = getIsDefault ? 1 : 0;
+	}
+
 	@Override
 	public String toString() {
 		return "Project [projectId=" + projectId + ", typeId=" + typeId + ", projectName=" + projectName
-				+ ", projectDesc=" + projectDesc + "]";
+				+ ", projectDesc=" + projectDesc + ", isDefaultInt=" + isDefaultInt + "]";
 	}
 	
 	
